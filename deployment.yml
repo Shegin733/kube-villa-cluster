@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: villakube-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: villakube
+  template:
+    metadata:
+      labels:
+        app: villakube
+    spec:
+      containers:
+        - name: villakube
+          image: shegin/villakube
+          ports:
+            - containerPort: 80
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "Served by $(hostname)" >> /usr/local/apache2/htdocs/index.html && \
+              httpd-foreground
